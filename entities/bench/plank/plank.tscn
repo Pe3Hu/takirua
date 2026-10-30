@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cffth16i5mnoo"]
+
+[ext_resource type="Script" uid="uid://b1tmw3r4vf3qt" path="res://entities/bench/plank/plank.gd" id="1_1pife"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lxk3t"]
+size = Vector2(192, 288)
+
+[node name="Plank" type="Node2D" unique_id=13949713]
+script = ExtResource("1_1pife")
+
+[node name="Joints" type="Node2D" parent="." unique_id=1813689378]
+unique_name_in_owner = true
+
+[node name="Line2D" type="Line2D" parent="." unique_id=366084261]
+points = PackedVector2Array(96, -144, 96, 144, -96, 144, -96, -144)
+closed = true
+width = 8.0
+
+[node name="Area2D" type="Area2D" parent="." unique_id=191534665]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=573489785]
+shape = SubResource("RectangleShape2D_lxk3t")
+debug_color = Color(0.21998799, 0.605977, 0.5792275, 0.41960785)
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

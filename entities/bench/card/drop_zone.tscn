@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c4uhnej4orl1p"]
+
+[ext_resource type="Script" uid="uid://crfx2gj7gqxkg" path="res://entities/bench/card/drop_zone.gd" id="1_unpo3"]
+
+[node name="DropZone" type="Marker2D" unique_id=941584027 groups=["zone"]]
+gizmo_extents = 30.6
+script = ExtResource("1_unpo3")

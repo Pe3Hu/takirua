@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://drtnjkchjbuad"]
+
+[ext_resource type="Script" uid="uid://bmspg8w8sy46u" path="res://entities/bench/plank/joint/joint.gd" id="1_3ho6u"]
+[ext_resource type="Script" uid="uid://c52mcmnm0kfcb" path="res://entities/bench/plank/joint/joint_data.gd" id="2_3wd8l"]
+
+[sub_resource type="Resource" id="Resource_kff0d"]
+script = ExtResource("2_3wd8l")
+
+[node name="Joint" type="Node2D" unique_id=988328554]
+script = ExtResource("1_3ho6u")
+data = SubResource("Resource_kff0d")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=739694590]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=800271785]
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_exited"]

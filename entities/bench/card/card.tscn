@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://vtsuudxmlyye"]
+
+[ext_resource type="Script" uid="uid://skie4pefapbk" path="res://entities/bench/card/card.gd" id="1_kcvrv"]
+[ext_resource type="Texture2D" uid="uid://crn86ir408gcd" path="res://shared/icon.svg" id="2_smiaf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nadji"]
+size = Vector2(128, 128)
+
+[node name="Card" type="Node2D" unique_id=1942459248]
+script = ExtResource("1_kcvrv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1759365651]
+texture = ExtResource("2_smiaf")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D" unique_id=1741467684]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D" unique_id=1151467265]
+shape = SubResource("RectangleShape2D_nadji")
+
+[connection signal="input_event" from="Sprite2D/Area2D" to="." method="_on_area_2d_input_event"]

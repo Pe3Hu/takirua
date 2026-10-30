@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://co6io7k6qquof"]
+
+[ext_resource type="Script" uid="uid://c52mcmnm0kfcb" path="res://entities/bench/plank/joint/joint_data.gd" id="2_s8c0v"]
+[ext_resource type="PackedScene" uid="uid://drtnjkchjbuad" path="res://entities/bench/plank/joint/joint.tscn" id="2_usa7k"]
+
+[sub_resource type="Resource" id="Resource_usa7k"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_ywt7p"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_is6a5"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_8oqwe"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_kdaw4"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_d1rue"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_ro3wm"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_u3l53"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_7tkad"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_x2uvk"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_gwfl3"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_gqt1r"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_mrbwm"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_3v20i"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_mcp5n"]
+script = ExtResource("2_s8c0v")
+
+[sub_resource type="Resource" id="Resource_etsl2"]
+script = ExtResource("2_s8c0v")
+
+[node name="OriginPlank" type="Node2D" unique_id=13949713]
+
+[node name="Joints" type="Node2D" parent="." unique_id=1813689378]
+unique_name_in_owner = true
+
+[node name="Squares" type="Node2D" parent="Joints" unique_id=993583192]
+
+[node name="SquareNW" parent="Joints/Squares" unique_id=988328554 instance=ExtResource("2_usa7k")]
+position = Vector2(-48, -96)
+data = SubResource("Resource_usa7k")
+
+[node name="SquareNE" parent="Joints/Squares" unique_id=1626473526 instance=ExtResource("2_usa7k")]
+position = Vector2(48, -96)
+data = SubResource("Resource_ywt7p")
+
+[node name="SquareSE" parent="Joints/Squares" unique_id=1421643556 instance=ExtResource("2_usa7k")]
+position = Vector2(48, 96)
+data = SubResource("Resource_is6a5")
+
+[node name="SquareSW" parent="Joints/Squares" unique_id=696242319 instance=ExtResource("2_usa7k")]
+position = Vector2(-48, 96)
+data = SubResource("Resource_8oqwe")
+
+[node name="CornerTriangles" type="Node2D" parent="Joints" unique_id=376195888]
+visible = false
+
+[node name="TriangleNW" parent="Joints/CornerTriangles" unique_id=1618335849 instance=ExtResource("2_usa7k")]
+position = Vector2(-48, -96)
+data = SubResource("Resource_kdaw4")
+
+[node name="TriangleNE" parent="Joints/CornerTriangles" unique_id=1662293377 instance=ExtResource("2_usa7k")]
+position = Vector2(48, -96)
+data = SubResource("Resource_d1rue")
+
+[node name="TriangleSE" parent="Joints/CornerTriangles" unique_id=1056531001 instance=ExtResource("2_usa7k")]
+position = Vector2(48, 96)
+data = SubResource("Resource_ro3wm")
+
+[node name="TriangleSW" parent="Joints/CornerTriangles" unique_id=998895690 instance=ExtResource("2_usa7k")]
+position = Vector2(-48, 96)
+data = SubResource("Resource_u3l53")
+
+[node name="SideTriangles" type="Node2D" parent="Joints" unique_id=1671988865]
+visible = false
+
+[node name="TriangleN" parent="Joints/SideTriangles" unique_id=1602396124 instance=ExtResource("2_usa7k")]
+position = Vector2(0, -144)
+data = SubResource("Resource_7tkad")
+
+[node name="TriangleE" parent="Joints/SideTriangles" unique_id=788940121 instance=ExtResource("2_usa7k")]
+position = Vector2(96, 0)
+data = SubResource("Resource_x2uvk")
+
+[node name="TriangleS" parent="Joints/SideTriangles" unique_id=393745254 instance=ExtResource("2_usa7k")]
+position = Vector2(0, 144)
+data = SubResource("Resource_gwfl3")
+
+[node name="TriangleW" parent="Joints/SideTriangles" unique_id=1881157063 instance=ExtResource("2_usa7k")]
+position = Vector2(-96, 0)
+data = SubResource("Resource_gqt1r")
+
+[node name="Rectangles" type="Node2D" parent="Joints" unique_id=1165123328]
+visible = false
+
+[node name="RectangleN" parent="Joints/Rectangles" unique_id=849751010 instance=ExtResource("2_usa7k")]
+position = Vector2(0, -128)
+data = SubResource("Resource_mrbwm")
+
+[node name="RectangleE" parent="Joints/Rectangles" unique_id=2121795647 instance=ExtResource("2_usa7k")]
+position = Vector2(80, 0)
+data = SubResource("Resource_3v20i")
+
+[node name="RectangleS" parent="Joints/Rectangles" unique_id=388631996 instance=ExtResource("2_usa7k")]
+position = Vector2(0, 128)
+data = SubResource("Resource_mcp5n")
+
+[node name="RectangleW" parent="Joints/Rectangles" unique_id=18125692 instance=ExtResource("2_usa7k")]
+position = Vector2(-80, 0)
+data = SubResource("Resource_etsl2")
