@@ -1,42 +1,9 @@
 [gd_scene format=3 uid="uid://dvf5ncaultddd"]
 
 [ext_resource type="Script" uid="uid://2tw36xlsqrci" path="res://entities/bench/bench.gd" id="1_xcqps"]
-[ext_resource type="PackedScene" uid="uid://cffth16i5mnoo" path="res://entities/bench/plank/plank.tscn" id="4_2d4gq"]
 
 [node name="Bench" type="Node2D" unique_id=850402043]
 script = ExtResource("1_xcqps")
 
 [node name="Planks" type="Node2D" parent="." unique_id=1520877607]
 unique_name_in_owner = true
-
-[node name="Plank" parent="Planks" unique_id=13949713 instance=ExtResource("4_2d4gq")]
-unique_name_in_owner = true
-position = Vector2(-432, 427)
-
-[node name="Plank2" parent="Planks" unique_id=1874124908 instance=ExtResource("4_2d4gq")]
-unique_name_in_owner = true
-position = Vector2(690, 95)
-
-[node name="Plank3" parent="Planks" unique_id=1278066965 instance=ExtResource("4_2d4gq")]
-unique_name_in_owner = true
-position = Vector2(354, -371)
-
-[node name="Plank4" parent="Planks" unique_id=218271806 instance=ExtResource("4_2d4gq")]
-unique_name_in_owner = true
-position = Vector2(291, 637)
-
-[node name="Plank5" parent="Planks" unique_id=1627951297 instance=ExtResource("4_2d4gq")]
-unique_name_in_owner = true
-position = Vector2(-564, -267)
-
-[node name="Plank6" parent="Planks" unique_id=147929951 instance=ExtResource("4_2d4gq")]
-unique_name_in_owner = true
-position = Vector2(-167, -26)
-
-[node name="Plank7" parent="Planks" unique_id=542311289 instance=ExtResource("4_2d4gq")]
-unique_name_in_owner = true
-position = Vector2(137, 162)
-
-[node name="Plank8" parent="Planks" unique_id=1678528909 instance=ExtResource("4_2d4gq")]
-unique_name_in_owner = true
-position = Vector2(66, -196)

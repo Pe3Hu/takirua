@@ -11,6 +11,7 @@ script = ExtResource("1_3ho6u")
 data = SubResource("Resource_kff0d")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=739694590]
+input_pickable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=800271785]
 

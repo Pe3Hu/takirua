@@ -4,7 +4,7 @@ extends Resource
 
 var plank: PlankData
 
-@export var type: Bozo.Joint = Bozo.Joint.SQUARE:
+@export var type: Bozo.Joint = Bozo.Joint.SHORT_RECTANGLE:
 	set(value):
 		if type == value: return
 		type = value
@@ -15,7 +15,6 @@ var plank: PlankData
 		windrose = value
 		changed.emit()
 @export var post: Bozo.Post = Bozo.Post.CORNER
-@export var extent: Bozo.Extent = Bozo.Extent.SHORT
 # 0 = 0°, 1 = 90°, 2 = 180°, 3 = 270°
 @export_range(0, 3, 1) var rotation_step: int = 0:
 	set(value):
@@ -40,30 +39,25 @@ var plank: PlankData
 		changed.emit()
 
 
-func _init(plank_: PlankData = null, type_: Bozo.Joint = Bozo.Joint.SQUARE, windrose_: Bozo.Windrose = Bozo.Windrose.N, extent_: Bozo.Extent = Bozo.Extent.SHORT) -> void:
+func _init(
+	plank_: PlankData = null,
+	type_: Bozo.Joint = Bozo.Joint.SHORT_RECTANGLE,
+	windrose_: Bozo.Windrose = Bozo.Windrose.N
+) -> void:
 	plank = plank_
 	type = type_
 	windrose = windrose_
-	if Digest.windrose_to_extents[windrose].has(extent_):
-		extent = extent_
 	post = Digest.windrose_to_post[windrose]
-	
+
 	if Digest.joint_to_windrose_to_rotation.has(type):
 		rotation_step = Digest.joint_to_windrose_to_rotation[type][windrose]
 
 ## Возвращает точки фигуры (уже повёрнутые) вокруг начала координат узла.
 func get_points() -> PackedVector2Array:
-	var h := Catalog.JOINT_SIDE_LENGTH / 2.0
+	var h := Catalog.JOINT_SIDE_LENGTH * Catalog.TRIANGLE_CATHETUS_SCALE
 	var pts := PackedVector2Array()
 
 	match type:
-		Bozo.Joint.SQUARE:
-			pts = PackedVector2Array([
-				Vector2(-h, -h),
-				Vector2(h, -h),
-				Vector2(h, h),
-				Vector2(-h, h),
-			])
 		Bozo.Joint.TRIANGLE:
 			# Прямоугольный треугольник: прямой угол в левом нижнем углу
 			pts = PackedVector2Array([
@@ -71,9 +65,9 @@ func get_points() -> PackedVector2Array:
 				Vector2(-h, -h),
 				Vector2(h, h),
 			])
-		Bozo.Joint.RECTANGLE:
+		Bozo.Joint.SHORT_RECTANGLE, Bozo.Joint.LONG_RECTANGLE:
 			var rw := Catalog.JOINT_SIDE_LENGTH * Catalog.RECTANGLE_WIDTH_SCALE
-			var rl := Catalog.JOINT_SIDE_LENGTH * float(Digest.extent_to_factor[extent])
+			var rl := Catalog.JOINT_SIDE_LENGTH * float(Digest.joint_to_factor[type])
 			var hw := rw / 2.0
 			var hl := rl / 2.0
 			pts = PackedVector2Array([

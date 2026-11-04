@@ -152,20 +152,26 @@ func _on_area_2d_input_event(_v, _e, _i) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and selected:
-		if event.keycode == KEY_W:
-			_flip()
-			get_viewport().set_input_as_handled()
-			return
+		match event.keycode:
+			KEY_W:
+				_flip()
+				get_viewport().set_input_as_handled()
+				return
+			KEY_SPACE:
+				_regenerate_data()
+				get_viewport().set_input_as_handled()
+				return
 
 	if event is InputEventKey and event.pressed and not event.echo and selected and not _candidates.is_empty():
-		if event.keycode == KEY_E:
-			_cycle_candidate(1)
-			get_viewport().set_input_as_handled()
-			return
-		elif event.keycode == KEY_Q:
-			_cycle_candidate(-1)
-			get_viewport().set_input_as_handled()
-			return
+		match event.keycode:
+			KEY_E:
+				_cycle_candidate(1)
+				get_viewport().set_input_as_handled()
+				return
+			KEY_Q:
+				_cycle_candidate(-1)
+				get_viewport().set_input_as_handled()
+				return
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 		if not selected: return
@@ -257,8 +263,6 @@ func _add_candidate(mine: Joint, other: Joint) -> void:
 	for c in _candidates:
 		if c.self_joint == mine and c.other_joint == other: return
 	_candidates.append({ self_joint = mine, other_joint = other })
-
-
 func _is_compatible(mine: Joint, other: Joint) -> bool:
 	if mine.data == null or other.data == null: return false
 	if mine.data.type != other.data.type: return false
@@ -269,11 +273,17 @@ func _is_compatible(mine: Joint, other: Joint) -> bool:
 		if mp != null and op != null and mp == op:
 			return false
 
-	if other.data.type == Bozo.Joint.RECTANGLE:
-		if mine.data.extent != other.data.extent:
-			return false
+	# Для прямоугольников проверка extent больше не нужна — тип сам по себе
+	# кодирует длину (SHORT_RECTANGLE != LONG_RECTANGLE уже отсекается выше).
 
 	return true
+
+
+func _should_check_flip(sj: Joint, oj: Joint) -> bool:
+	if sj.data == null or oj.data == null: return false
+	# 180°-неоднозначность есть только у прямоугольных джойнтов.
+	return sj.data.type == Bozo.Joint.SHORT_RECTANGLE \
+		or sj.data.type == Bozo.Joint.LONG_RECTANGLE
 
 
 func _same_pair(a: Dictionary, b: Dictionary) -> bool:
@@ -318,10 +328,13 @@ func _refresh_highlight() -> void:
 # --- Снап ---
 
 func _update_snapping(mouse: Vector2) -> Variant:
+	var sj: Joint
+	var oj: Joint
+	
 	# Удержание уже активного снапа
 	if not _snapped_pair.is_empty():
-		var sj = _snapped_pair.get("self_joint")
-		var oj = _snapped_pair.get("other_joint")
+		sj = _snapped_pair.get("self_joint")
+		oj = _snapped_pair.get("other_joint")
 		if not is_instance_valid(sj) or not is_instance_valid(oj):
 			_snapped_pair = {}
 		elif mouse.distance_to(_snap_mouse_origin) <= SNAP_DETACH_DISTANCE:
@@ -339,14 +352,14 @@ func _update_snapping(mouse: Vector2) -> Variant:
 	var best_dist := SNAP_ATTACH_DISTANCE
 	var best_cur: Transform2D = Transform2D.IDENTITY
 	var best_alt: Transform2D = Transform2D.IDENTITY
-	var best_needs_flip := false
+	#var best_needs_flip := false
 	var best_alt_valid := false
 	var write := 0
 
 	for i in range(_candidates.size()):
 		var c = _candidates[i]
-		var sj = c.get("self_joint")
-		var oj = c.get("other_joint")
+		sj = c.get("self_joint")
+		oj = c.get("other_joint")
 		if not is_instance_valid(sj) or not is_instance_valid(oj):
 			continue
 
@@ -371,7 +384,7 @@ func _update_snapping(mouse: Vector2) -> Variant:
 			best_cur = snap_cur
 			best_alt = snap_alt
 			best_alt_valid = alt_valid
-			best_needs_flip = (d_alt < d)
+			#best_needs_flip = (d_alt < d)
 			_snapped_pair = _dup_pair(c)
 			_snap_mouse_origin = mouse
 
@@ -386,8 +399,8 @@ func _update_snapping(mouse: Vector2) -> Variant:
 	_candidate_index = best_idx
 
 	var best = _candidates[best_idx]
-	var sj := best.self_joint as Joint
-	var oj := best.other_joint as Joint
+	sj = best.self_joint
+	oj = best.other_joint
 
 	# Разрешаем переворот только для прямоугольных джойнтов.
 	if _should_check_flip(sj, oj):
@@ -412,11 +425,6 @@ func _compute_resolved_snap(sj: Joint, oj: Joint) -> Dictionary:
 		return { transform = alt, needs_flip = true }
 	return { transform = cur, needs_flip = false }
 
-
-func _should_check_flip(sj: Joint, oj: Joint) -> bool:
-	if sj.data == null or oj.data == null: return false
-	# Только для прямоугольных (квадратных) джойнтов — там есть 180° неоднозначность
-	return sj.data.type == Bozo.Joint.RECTANGLE
 
 
 func _compute_snap_transform(self_joint: Joint, other_joint: Joint) -> Transform2D:
@@ -585,3 +593,14 @@ func _find_plank(n: Node) -> Plank:
 		if cur is Plank: return cur as Plank
 		cur = cur.get_parent()
 	return null
+
+func _regenerate_data() -> void:
+	_snapped_pair = {}
+	_candidates.clear()
+	_candidate_index = 0
+	_highlight_self = null
+	_highlight_other = null
+	
+	data = PlankData.new()
+	
+	_refresh_highlight()

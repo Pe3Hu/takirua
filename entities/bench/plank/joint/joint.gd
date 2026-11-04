@@ -47,7 +47,9 @@ func update_position() -> void:
 	var anchor: Vector2 = Digest.joint_to_windrose_to_anchor[data.type][data.windrose]
 	position = anchor * l
 
-	if data.type == Bozo.Joint.RECTANGLE:
+	# Сдвиг поперёк оси прямоугольника одинаков для короткого и длинного.
+	# (Удлинение LONG_RECTANGLE идёт вдоль оси, а не поперёк.)
+	if data.type == Bozo.Joint.SHORT_RECTANGLE or data.type == Bozo.Joint.LONG_RECTANGLE:
 		var shift_angle := float(data.rotation_step + 1) * PI / 2.0
 		var shift := Vector2.from_angle(shift_angle) * Catalog.JOINT_SIDE_LENGTH * Catalog.RECTANGLE_WIDTH_SCALE / 2.0
 		position += shift
